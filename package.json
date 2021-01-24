@@ -1,7 +1,7 @@
 {
   "name": "callbag-form",
-  "version": "0.0.1",
-  "description": "Framework agnostic form management",
+  "version": "0.0.2",
+  "description": "Framework agnostic form management with callbags",
   "main": "dist/es5/index.js",
   "module": "dist/es6/index.js",
   "types": "dist/es6/index.d.ts",
@@ -20,6 +20,7 @@
     "cov:travis": "nyc npm run test && npx codecov",
     "cov:clean": "rm -fr ./.nyc_output && rm -fr ./coverage"
   },
+  "keywords": ["form", "callbags", "state management", "frontend", "javascript", "typescript"],
   "sideEffects": false,
   "repository": {
     "type": "git",
