@@ -60,7 +60,7 @@ pipe(form.errors, map(e => e.passwordRepeat.match))
 
 <br>
 
-⚡ Checkout a [real-life example](https://stackblitz.com/edit/callbag-jsx-form-demo?file=style.css) using [callbag-jsx](https://loreanvictor.github.io/callbag-jsx/).
+⚡ Checkout a [real-life example](https://stackblitz.com/edit/callbag-jsx-form-demo?file=index.tsx) using [callbag-jsx](https://loreanvictor.github.io/callbag-jsx/).
 
 <br><br>
 
