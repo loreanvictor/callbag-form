@@ -18,49 +18,65 @@ npm i callbag-form
 ```
 
 callbag-form provides a simple method for managing forms and validation in TypeScript / JavaScript.
-You create a _form_ object using a callbag source (which provides the form data) and some validation rules,
-and the _form_ object tracks validity of the data, failing and passing validations, and whether the form data
-has changed at all.
+Provides a [state](https://github.com/loreanvictor/callbag-state) containing
+the form data, sources emitting form validity, error report, and whether form data has changed.
 
 ```ts
-import state from 'callbag-state'
-import form, { isRequired, isEmail, isStrongPassword, isSame } from 'callbag-form'
+import form, { isRequired, isEmail, isStrongPassword, isSame, isTrue } from 'callbag-form'
 
 
-const data = state({
-  name: '',
-  email: '',
-  password: '',
-  passwordRepeat: '',
+const registration = form({
+  name: ['', { isRequired }],                               // 👉 name is required
+  email: ['', { isRequired, isEmail }],                     // 👉 email is required and must be an email
+  password: ['', isStrongPassword()],                       // 👉 password must be a strong password
+  passwordRepeat: ['', { match: isSame(f => f?.password) }] // 👉 password repeat must be the same with password
+  agreeToS: [false, { isTrue }]                             // 👉 must have agreed to tos 
 })
 
-const registration = form(data, {
-  name: { isRequired },                               // 👉 name is required
-  email: { isRequired, isEmail },                     // 👉 email is required and must be an email
-  password: isStrongPassword(),                       // 👉 password must be a strong password
-  passwordRepeat: { match: isSame(f => f?.password) } // 👉 password repeat must be the same with password
-})
+// 👉 read/write form data
+registration.data.get()
+registration.data.set({ ... })
 
+// 👉 form data is a callbage
+pipe(registration.data, subscribe(console.log))
 
-// 👉 Track validity
-pipe(form.valid, subscribe(console.log))
+// 👉 form data is a state
+registration.data.sub('email').set(...)
+pipe(registration.data.sub('agreeToS'), subscribe(console.log))
 
-// 👉 Check if email has errors
-pipe(form.errors, map(e => e.email.hasErrors))
+// 👉 track validity
+pipe(registration.valid, subscribe(console.log))
 
-// 👉 Check if email format has issues
-pipe(form.errors, map(e => e.email.isEmail))
+// 👉 check if email has errors
+pipe(registration.errors, map(e => e.email.hasErrors))
 
-// 👉 Check if password has a special character (validator included in `isStrongPassword()`):
-pipe(form.errors, map(e => e.password.hasSpecialChar))
+// 👉 check if email format has issues
+pipe(registration.errors, map(e => e.email.isEmail))
 
-// 👉 Check if password-repeat matches:
-pipe(form.errors, map(e => e.passwordRepeat.match))
+// 👉 check if password has a special character (validator included in `isStrongPassword()`):
+pipe(registration.errors, map(e => e.password.hasSpecialChar))
+
+// 👉 check if password-repeat matches:
+pipe(registration.errors, map(e => e.passwordRepeat.match))
 ```
 
 <br>
 
 ⚡ Checkout a [real-life example](https://stackblitz.com/edit/callbag-jsx-form-demo?file=index.tsx) using [callbag-jsx](https://loreanvictor.github.io/callbag-jsx/).
+
+<br>
+
+👉 You can also provide your own source of data:
+
+```ts
+const registration = form(source, {
+  name: { isRequired },
+  email: { isRequired, isEmail },
+  password: isStrongPassword(),
+  passwordRepeat: { match: isSame(f => f?.password)) },
+  agreeToS: { isTrue }
+})
+```
 
 <br><br>
 
