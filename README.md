@@ -105,7 +105,7 @@ Or use via CDNs:
 Validators in callbag-form are simple functions which return true or false with given value:
 
 ```ts
-export function isRequired<T>(t?: T) {
+export function isRequired(t) {
   return isNotNull(t) && (
     (t as any).length === undefined
     || (t as any).length > 0
@@ -119,10 +119,8 @@ validators are rare and so can be accounted for specifically.
 
 Validators can also take into account the whole form data:
 ```ts
-export function isSame<Form, Val>(selector: (form?: Form) => Val) {
-  return (value?: Val, form?: Form) => {
-    return value === selector(form)
-  }
+export function isSame(selector) {
+  return (value, form) => value === selector(form)
 }
 ```
 
