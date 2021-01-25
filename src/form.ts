@@ -7,7 +7,7 @@ import { errors, ValidationErrors, ValidationRules } from './validation';
 import { remember } from './remember';
 
 
-export class Form<T, V extends ValidationRules<T>> {
+export class Form<T, S extends Source<T>, V extends ValidationRules<T>> {
   private _snapshot: Callbag<T, T | undefined>;
   private _last: T | undefined;
   private _lastSnapshot: T | undefined;
@@ -18,18 +18,18 @@ export class Form<T, V extends ValidationRules<T>> {
   private _dispose: () => void | undefined;
 
   constructor(
-    readonly src: Source<T>,
+    readonly data: S & Source<T>,
     readonly rules: V,
   ) {
     this._snapshot = subject();
-    this._changed = expr($ => !isEqual($(this.src), $(this._snapshot)));
-    this._errors = pipe(this.src, map(v => errors(v, rules)), remember);
+    this._changed = expr($ => !isEqual($(this.data), $(this._snapshot)));
+    this._errors = pipe(this.data, map(v => errors(v, rules)), remember);
     this._valid = pipe(this._errors, map(e => !e.hasErrors));
     this._invalid = pipe(this._valid, map(v => !v));
   }
 
   track() {
-    this._dispose = pipe(this.src, subscribe(v => this._last = v));
+    this._dispose = pipe(this.data, subscribe(v => this._last = v));
 
     return this._dispose;
   }

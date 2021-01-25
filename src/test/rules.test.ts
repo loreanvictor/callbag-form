@@ -64,7 +64,7 @@ describe('hasMinLength()', () => {
 
 describe('isSame()', () => {
   it('should return true if given value matches result of given selector from the form.', () => {
-    const test = isSame<{x: number}, number | undefined>(t => t?.x);
+    const test = isSame<number>(t => t?.x);
     test(undefined, undefined).should.be.true;
     test(undefined, { y: 42 } as any).should.be.true;
     test(undefined, { x: 42 }).should.be.false;

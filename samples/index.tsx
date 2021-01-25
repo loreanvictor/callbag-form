@@ -1,50 +1,39 @@
-import { expr, pipe, subscribe } from 'callbag-common';
+import { expr } from 'callbag-common';
 import { makeRenderer } from 'callbag-jsx';
-import state from 'callbag-state';
 
-import { Form } from '../src/form';
+import { form } from '../src';
 import { isEmail, isRequired, isSame, hasMinLength, isTrue, isStrongPassword } from '../src/rules';
 
 
 const renderer = makeRenderer();
 
-const s = state({
-  email: '',
-  name: '',
-  password: '',
-  passwordRepeat: '',
-  agree: false,
-});
-
-const f = new Form(s, {
-  email: { isRequired, isEmail },
-  name: { isRequired, length: hasMinLength(5) },
-  password: isStrongPassword(),
-  passwordRepeat: { match: isSame(t => t?.password) },
-  agree: { isTrue },
+const f = form({
+  email: ['', { isRequired, isEmail }],
+  name: ['', { isRequired, length: hasMinLength(5) }],
+  password: ['', isStrongPassword()],
+  passwordRepeat: ['', { match: isSame(t => t?.password) }],
+  agree: [false, { isTrue }],
 });
 
 f.track();
 f.checkpoint();
 
-pipe(f.errors, subscribe(console.log));
-
 renderer.render(<>
-  <input _state={s.sub('email')} type='text' placeholder='email'/>
+  <input _state={f.data.sub('email')} type='text' placeholder='email'/>
   <ul hidden={expr($ => !$(f.errors)?.email?.hasErrors)}>
     <li hidden={expr($ => !$(f.errors)?.email?.isRequired)}>email is required</li>
     <li hidden={expr($ => !$(f.errors)?.email?.isEmail)}>must be email format</li>
   </ul>
   <br/>
 
-  <input _state={s.sub('name')} type='text' placeholder='name'/>
+  <input _state={f.data.sub('name')} type='text' placeholder='name'/>
   <ul hidden={expr($ => !$(f.errors)?.name?.hasErrors)}>
     <li hidden={expr($ => !$(f.errors)?.name?.isRequired)}>name is required</li>
     <li hidden={expr($ => !$(f.errors)?.name?.length)}>must be at least 5 characters</li>
   </ul>
   <br/>
 
-  <input _state={s.sub('password')} type='password' placeholder='password'/>
+  <input _state={f.data.sub('password')} type='password' placeholder='password'/>
   <ul hidden={expr($ => !$(f.errors)?.password?.hasErrors)}>
     <li hidden={expr($ => !$(f.errors)?.password?.isRequired)}>password is required</li>
     <li hidden={expr($ => !$(f.errors)?.password?.length)}>must be at least 8 characters</li>
@@ -55,13 +44,13 @@ renderer.render(<>
   </ul>
   <br/>
 
-  <input _state={s.sub('passwordRepeat')} type='password' placeholder='repeat password'/>
+  <input _state={f.data.sub('passwordRepeat')} type='password' placeholder='repeat password'/>
   <ul hidden={expr($ => !$(f.errors)?.passwordRepeat?.hasErrors)}>
     <li hidden={expr($ => !$(f.errors)?.passwordRepeat?.match)}>passwords must match</li>
   </ul>
   <br/>
 
-  <input _state={s.sub('agree')} type='checkbox'/> Agree to stuff
+  <input _state={f.data.sub('agree')} type='checkbox'/> Agree to stuff
   <br/>
 
   <br/>

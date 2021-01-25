@@ -29,8 +29,8 @@ export function hasMinLength(n: number) {
   return (l?: unknown[] | string) => isNotNull(l) && l.length >= n;
 }
 
-export function isSame<T, V>(selector: (t?: T) => V) {
-  return (v?: V, t?: T) => {
+export function isSame<V>(selector: (t?: {[key: string]: any}) => V) {
+  return (v?: V, t?: {[key: string]: any}) => {
     return v === selector(t);
   };
 }
