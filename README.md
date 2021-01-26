@@ -22,12 +22,12 @@ Provides a [state](https://github.com/loreanvictor/callbag-state) containing
 the form data, sources emitting form validity, error report, and whether form data has changed.
 
 ```ts
-import form, { isRequired, isEmail, isStrongPassword, isSame, isTrue } from 'callbag-form'
+import form, { required, isEmail, isStrongPassword, isSame, isTrue } from 'callbag-form'
 
 
 const registration = form({
-  name: ['', { isRequired }],                               // 👉 name is required
-  email: ['', { isRequired, isEmail }],                     // 👉 email is required and must be an email
+  name: ['', { required }],                                 // 👉 name is required
+  email: ['', { required, isEmail }],                       // 👉 email is required and must be an email
   password: ['', isStrongPassword()],                       // 👉 password must be a strong password
   passwordRepeat: ['', { match: isSame(f => f?.password) }] // 👉 password repeat must be the same with password
   agreeToS: [false, { isTrue }]                             // 👉 must have agreed to tos 
@@ -70,8 +70,8 @@ pipe(registration.errors, map(e => e.passwordRepeat.match))
 
 ```ts
 const registration = form(source, {
-  name: { isRequired },
-  email: { isRequired, isEmail },
+  name: { required },
+  email: { required, isEmail },
   password: isStrongPassword(),
   passwordRepeat: { match: isSame(f => f?.password)) },
   agreeToS: { isTrue }
@@ -105,7 +105,7 @@ Or use via CDNs:
 Validators in callbag-form are simple functions which return true or false with given value:
 
 ```ts
-export function isRequired(t) {
+export function required(t) {
   return isNotNull(t) && (
     (t as any).length === undefined
     || (t as any).length > 0
@@ -129,7 +129,7 @@ export function isSame(selector) {
 callbag-form comes with a handful of validators that are commonly used:
 
 ```ts
-isRequired          // 👉 checks if value is not null and not empty string / array
+required            // 👉 checks if value is not null and not empty string / array
 isTrue              // 👉 checks if value is true
 doesMatch(regex)    // 👉 checks if value matches given regexp
 isUrl               // 👉 checks if value is a proper URL (https only, regexp check)
@@ -146,7 +146,7 @@ There is also `isStrongPassword()`, which provides a bundle of validation functi
 ```ts
 export function isStrongPassword() {
   return {
-    isRequired,
+    required,
     hasUpperCase,
     hasLowerCase,
     hasDigit,

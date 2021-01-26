@@ -2,7 +2,7 @@ export function isNotNull<T>(t: T | undefined | null): t is T {
   return t !== undefined && t !== null;
 }
 
-export function isRequired<T>(t?: T) {
+export function required<T>(t?: T) {
   return isNotNull(t) && ((t as any).length === undefined || (t as any).length > 0);
 }
 
@@ -53,7 +53,7 @@ export function hasSpecialChar(str?: string) {
 
 export function isStrongPassword() {
   return {
-    isRequired,
+    required,
     hasUpperCase,
     hasLowerCase,
     hasDigit,

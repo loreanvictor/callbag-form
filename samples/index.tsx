@@ -2,14 +2,14 @@ import { expr } from 'callbag-common';
 import { makeRenderer } from 'callbag-jsx';
 
 import { form } from '../src';
-import { isEmail, isRequired, isSame, hasMinLength, isTrue, isStrongPassword } from '../src/rules';
+import { isEmail, required, isSame, hasMinLength, isTrue, isStrongPassword } from '../src/rules';
 
 
 const renderer = makeRenderer();
 
 const f = form({
-  email: ['', { isRequired, isEmail }],
-  name: ['', { isRequired, length: hasMinLength(5) }],
+  email: ['', { required, isEmail }],
+  name: ['', { required, length: hasMinLength(5) }],
   password: ['', isStrongPassword()],
   passwordRepeat: ['', { match: isSame(t => t?.password) }],
   agree: [false, { isTrue }],
@@ -21,21 +21,21 @@ f.checkpoint();
 renderer.render(<>
   <input _state={f.data.sub('email')} type='text' placeholder='email'/>
   <ul hidden={expr($ => !$(f.errors)?.email?.hasErrors)}>
-    <li hidden={expr($ => !$(f.errors)?.email?.isRequired)}>email is required</li>
+    <li hidden={expr($ => !$(f.errors)?.email?.required)}>email is required</li>
     <li hidden={expr($ => !$(f.errors)?.email?.isEmail)}>must be email format</li>
   </ul>
   <br/>
 
   <input _state={f.data.sub('name')} type='text' placeholder='name'/>
   <ul hidden={expr($ => !$(f.errors)?.name?.hasErrors)}>
-    <li hidden={expr($ => !$(f.errors)?.name?.isRequired)}>name is required</li>
+    <li hidden={expr($ => !$(f.errors)?.name?.required)}>name is required</li>
     <li hidden={expr($ => !$(f.errors)?.name?.length)}>must be at least 5 characters</li>
   </ul>
   <br/>
 
   <input _state={f.data.sub('password')} type='password' placeholder='password'/>
   <ul hidden={expr($ => !$(f.errors)?.password?.hasErrors)}>
-    <li hidden={expr($ => !$(f.errors)?.password?.isRequired)}>password is required</li>
+    <li hidden={expr($ => !$(f.errors)?.password?.required)}>password is required</li>
     <li hidden={expr($ => !$(f.errors)?.password?.length)}>must be at least 8 characters</li>
     <li hidden={expr($ => !$(f.errors)?.password?.hasDigit)}>must have one digit</li>
     <li hidden={expr($ => !$(f.errors)?.password?.hasLowerCase)}>must have one lower case character</li>

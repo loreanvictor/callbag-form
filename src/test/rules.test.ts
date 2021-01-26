@@ -1,16 +1,16 @@
 /* eslint-disable no-unused-expressions */
 import { should } from 'chai';
-import { doesMatch, hasDigit, hasLowerCase, hasMinLength, hasSpecialChar, hasUpperCase, isEmail, isRequired, isSame, isStrongPassword, isTrue, isUrl } from '../rules';
+import { doesMatch, hasDigit, hasLowerCase, hasMinLength, hasSpecialChar, hasUpperCase, isEmail, required, isSame, isStrongPassword, isTrue, isUrl } from '../rules';
 import { errors } from '../validation';
 
 should();
 
-describe('isRequired()', () => {
+describe('required()', () => {
   it('should return true when value is not falsy.', () => {
-    isRequired(42).should.be.true;
-    isRequired(false).should.be.true;
-    isRequired(undefined).should.be.false;
-    isRequired('').should.be.false;
+    required(42).should.be.true;
+    required(false).should.be.true;
+    required(undefined).should.be.false;
+    required('').should.be.false;
   });
 });
 
@@ -114,7 +114,7 @@ describe('isStrongPassword()', () => {
         p: {
           hasErrors: true,
           length: false,
-          isRequired: false,
+          required: false,
           hasUpperCase: false,
           hasLowerCase: false,
           hasDigit: true,
