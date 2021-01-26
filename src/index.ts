@@ -1,5 +1,5 @@
 import { Source } from 'callbag-common';
-import { state, StateLike } from 'callbag-state';
+import { state, State } from 'callbag-state';
 
 import { Form } from './form';
 import { Validators, ValidationRules } from './validation';
@@ -11,7 +11,7 @@ export type ExtractType<V extends DefaultRules<ExtractType<V>>> = { [K in keyof 
 export type ExtractValidations<V extends DefaultRules<ExtractType<V>>> = { [K in keyof V]: V[K][1]; }
 
 export function form<V extends DefaultRules<ExtractType<V>>>(rules: V)
-  :Form<ExtractType<V>, StateLike<ExtractType<V>> & Source<ExtractType<V>>, ExtractValidations<V>>;
+  :Form<ExtractType<V>, State<ExtractType<V>> & Source<ExtractType<V>>, ExtractValidations<V>>;
 
 export function form<T, S extends Source<T>, V extends ValidationRules<T>>(data: S & Source<T>, rules: V)
   : Form<T, S, V>;
