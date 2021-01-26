@@ -103,6 +103,7 @@ describe('Form', () => {
       const F = new Form(S, { x: { y: () => !!(++r) }});
 
       pipe(F.valid, subscribe(() => {}));
+      pipe(F.valid, subscribe(() => {}));
       r.should.equal(1);
 
       S.set({x: 1});

@@ -1,4 +1,3 @@
-import { map, pipe } from 'callbag-common';
 import state from 'callbag-state';
 import { should } from 'chai';
 import form from '..';

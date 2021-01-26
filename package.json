@@ -20,7 +20,14 @@
     "cov:travis": "nyc npm run test && npx codecov",
     "cov:clean": "rm -fr ./.nyc_output && rm -fr ./coverage"
   },
-  "keywords": ["form", "callbags", "state management", "frontend", "javascript", "typescript"],
+  "keywords": [
+    "form",
+    "callbags",
+    "state management",
+    "frontend",
+    "javascript",
+    "typescript"
+  ],
   "sideEffects": false,
   "repository": {
     "type": "git",
