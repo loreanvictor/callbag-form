@@ -1,10 +1,10 @@
 import cloneDeep from 'lodash.clonedeep';
 import isEqual from 'lodash.isequal';
 import subject from 'callbag-subject';
+import remember from 'callbag-remember';
 import { Callbag, expr, map, pipe, Source, subscribe } from 'callbag-common';
 
 import { errors, ValidationErrors, ValidationRules } from './validation';
-import { remember } from './remember';
 
 
 export class Form<T, S extends Source<T>, V extends ValidationRules<T>> {

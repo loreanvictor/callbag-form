@@ -1,6 +1,6 @@
 {
   "name": "callbag-form",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Framework agnostic form management with callbags",
   "main": "dist/es5/index.js",
   "module": "dist/es6/index.js",
@@ -43,6 +43,7 @@
     "@types/lodash.clonedeep": "^4.5.6",
     "@types/lodash.isequal": "^4.5.5",
     "callbag-common": "^0.1.5",
+    "callbag-remember": "^2.0.0",
     "callbag-subject": "^2.1.0",
     "lodash.clonedeep": "^4.5.0",
     "lodash.isequal": "^4.5.0"
